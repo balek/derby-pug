@@ -1,0 +1,35 @@
+{
+  "name": "derby-pug",
+  "version": "0.1.0",
+  "description": "Pug templates support for DerbyJS",
+  "main": "lib/index.js",
+  "scripts": {
+    "build": "coffee -bc lib",
+    "prepublish": "npm run build"
+  },
+  "author": "Alexey Balekhov <a@balek.ru>",
+  "license": "AGPL-3.0",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/balek/derby-pug.git"
+  },
+  "keywords": [
+    "derbyjs",
+    "plugin"
+  ],
+  "bugs": {
+    "url": "https://github.com/balek/derby-pug/issues"
+  },
+  "homepage": "https://github.com/balek/derby-pug",
+  "readmeFilename": "README.md",
+  "devDependencies": {
+    "coffee-script": "^1.10.0"
+  },
+  "optionalDependencies": {
+    "coffee-script": "^1.10.0"
+  },
+  "dependencies": {
+    "pug-lexer": "^3.1.0",
+    "pug-parser": "^3.0.1"
+  }
+}
