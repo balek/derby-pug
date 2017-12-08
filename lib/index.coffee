@@ -162,7 +162,7 @@ class DerbyPugCompiler
                         node.val
                 """
 
-                    #{offset}{{each #{node.obj} as #{vars}}}#{@compileBlock node.block, level+1}
+                    #{offset}{{each #{@compileBlockExpression node.obj} as #{vars}}}#{@compileBlock node.block, level+1}
                     #{offset}{{/each}}
                 """
 
@@ -190,19 +190,26 @@ class DerbyPugCompiler
         offset = '  '.repeat level
         code = """
 
-            #{offset}{{if #{node.test}}}#{@compileBlock node.consequent, level+1}
+            #{offset}{{if #{@compileBlockExpression node.test}}}#{@compileBlock node.consequent, level+1}
         """
         n = node.alternate
         while n
             if n.type == 'Conditional'
                 code += """
 
-                    #{offset}{{else if #{node.test}}}#{@compileBlock node.consequent, level+1}
+                    #{offset}{{else if #{@compileBlockExpression n.test}}}#{@compileBlock n.consequent, level+1}
                 """
             else
                 code += """
 
-                    #{offset}{{else}}#{@compileBlock node.consequent, level+1}
+                    #{offset}{{else}}#{@compileBlock n, level+1}
                 """
             n = n.alternate
         code += "\n#{offset}{{/if}}"
+
+
+    compileBlockExpression: (expr) ->
+        asStatementRE = /\s+as\s+\S+\s*$/i
+        m = expr.match asStatementRE
+        return @compileCode expr unless m
+        @compileCode(expr[..m.index]) + m[0]
