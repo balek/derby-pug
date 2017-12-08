@@ -169,7 +169,7 @@ class DerbyPugCompiler
             when 'Conditional'
                 @compileConditional node, level+1
 
-            when 'BlockComment', 'Comment'
+            when 'BlockComment'
                 return '' unless node.buffer
                 """
 
