@@ -54,15 +54,20 @@ class DerbyPugCompiler
         ast = parse lexer.getTokens()
         views =
             for n in ast.nodes
-                attrs =
-                    for a in n.attrs
-                        if a.val is true
-                            a.name
-                        else
-                            "#{a.name}=#{a.val}"
-                """
-                    <#{n.name}: #{attrs.join ' '}>#{@compileBlock n.block, 1}
-                """
+                if n.type != 'Tag'
+                    if n.type not in ['Comment', 'BlockComment']
+                        console.error 'Wrong structure in views file', fileName
+                    @compileNode n, 0
+                else
+                    attrs =
+                        for a in n.attrs
+                            if a.val is true
+                                a.name
+                            else
+                                "#{a.name}=#{a.val}"
+                    """
+                        <#{n.name}: #{attrs.join ' '}>#{@compileBlock n.block, 1}
+                    """
         views.join '\n\n'
 
 
