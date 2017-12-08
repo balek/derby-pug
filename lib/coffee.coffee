@@ -30,7 +30,7 @@ Block::joinFragmentArrays = (fragmentsList, joinStr) ->
     Base::joinFragmentArrays.call this, fragmentsList, joinStr
 
 
-module.exports = (code, attr) ->
+module.exports = (code, isAttr) ->
     Lexer::derbyMode = true
     node = CoffeeScript.nodes code
     Lexer::derbyMode = false
@@ -51,7 +51,7 @@ module.exports = (code, attr) ->
                     n.base = new IdentifierLiteral '@' + attr.name.value
         true
 
-    if attr
+    if isAttr
         if node.expressions?.length == 1 and
                 node.expressions[0].base?.constructor.name == 'StringLiteral'
             base = node.expressions[0].base
