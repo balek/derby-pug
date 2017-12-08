@@ -2,6 +2,7 @@ CoffeeScript = require 'coffee-script'
 
 {Lexer} = require 'coffee-script/lib/coffee-script/lexer'
 {IdentifierLiteral, Block, Base} = require 'coffee-script/lib/coffee-script/nodes'
+{Scope} = require 'coffee-script/lib/coffee-script/scope'
 
 
 # Support for alias paths in expressions
@@ -59,7 +60,12 @@ module.exports = (code, isAttr) ->
         else
             wrap = true
 
-    code = node.compileNode(indent: '', level: 2).map((n) -> n.code).join ''
+    code = node.compileNode
+            indent: ''
+            level: 2
+            scope: new Scope null, this, null, []
+        .map (n) -> n.code
+        .join ''
 
     # Coffee compiles objects to multiple lines
     code = code.replace /\n/g, ' '
