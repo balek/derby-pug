@@ -90,9 +90,9 @@ class DerbyPugCompiler
             when 'Tag', 'InterpolatedTag'
                 if node.name in ['bound', 'unbound']
                     return """
-                        #{offset}{{#{node.name}}
+                        #{offset}{{#{node.name}}}
                         #{@compileBlock node.block, level+1}
-                        #{offset}{{/#{node.name}}
+                        #{offset}{{/#{node.name}}}
 
                     """
 
@@ -105,8 +105,8 @@ class DerbyPugCompiler
                     args = parts.join ' as '
                     return """
 
-                        #{offset}{{#{node.name} #{args}}#{@compileBlock node.block, level+1}
-                        #{offset}{{/#{node.name}}
+                        #{offset}{{#{node.name} #{args}}}#{@compileBlock node.block, level+1}
+                        #{offset}{{/#{node.name}}}
                     """
 
                 classes = []
