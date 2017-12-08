@@ -2,6 +2,7 @@ fs = require 'fs'
 
 {Lexer} = require 'pug-lexer'
 parse = require 'pug-parser'
+voidElements = require 'void-elements'
 
 
 class DerbyPugLexer extends Lexer
@@ -131,7 +132,8 @@ class DerbyPugCompiler
                     attrs = " is=#{@compileCode node.expr, true}" + attrs
                     node.name = 'tag'
 
-                if node.selfClosing
+                if node.selfClosing or
+                        not node.block.nodes.length and voidElements[node.name]
                     "#{offset}<#{node.name}#{attrs}/>\n"
                 else if not node.block.nodes.length or
                         node.block.nodes.length == 1 and node.block.nodes[0].type in ['Text', 'Code']
