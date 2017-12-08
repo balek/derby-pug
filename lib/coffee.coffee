@@ -1,8 +1,8 @@
-CoffeeScript = require 'coffee-script'
+CoffeeScript = require 'coffeescript'
 
-{Lexer} = require 'coffee-script/lib/coffee-script/lexer'
-{IdentifierLiteral, Block, Base} = require 'coffee-script/lib/coffee-script/nodes'
-{Scope} = require 'coffee-script/lib/coffee-script/scope'
+{Lexer} = require 'coffeescript/lib/coffeescript/lexer'
+{IdentifierLiteral, Block, Base} = require 'coffeescript/lib/coffeescript/nodes'
+{Scope} = require 'coffeescript/lib/coffeescript/scope'
 
 
 # Support for alias paths in expressions
@@ -50,6 +50,8 @@ module.exports = (code, isAttr) ->
                     # Support for attribute paths
                     attr = n.properties.shift()
                     n.base = new IdentifierLiteral '@' + attr.name.value
+                else if n.base.constructor.name == 'StringWithInterpolations'
+                    n.base = n.base.body.expressions[0]
         true
 
     if isAttr
