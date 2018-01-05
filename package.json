@@ -1,6 +1,6 @@
 {
   "name": "derby-pug",
-  "version": "0.2.0",
+  "version": "0.2.1",
   "description": "Pug templates support for DerbyJS",
   "main": "lib/index.js",
   "scripts": {
