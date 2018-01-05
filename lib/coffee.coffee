@@ -46,12 +46,18 @@ module.exports = (code, isAttr) ->
                 if not n.elseBody
                     n.elseBody = CoffeeScript.nodes "''"
             when 'Value'
-                if n.base.constructor.name == 'ThisLiteral'
-                    # Support for attribute paths
-                    attr = n.properties.shift()
-                    n.base = new IdentifierLiteral '@' + attr.name.value
-                else if n.base.constructor.name == 'StringWithInterpolations'
-                    n.base = n.base.body.expressions[0]
+                switch n.base.constructor.name
+                    when 'UndefinedLiteral'
+                        # Prevent compilation to `void 0`
+                        n.base = new IdentifierLiteral 'undefined'
+                    when 'ThisLiteral'
+                        # Support for attribute paths
+                        attr = n.properties.shift()
+                        n.base = new IdentifierLiteral '@' + attr.name.value
+                    when 'StringWithInterpolations'
+                        # Prevent compilation to ES6 template string
+                        n.base = n.base.body.expressions[0]
+
         true
 
     if isAttr
